@@ -16,7 +16,7 @@ class Quiz extends Component {
 		return Math.floor(Math.random() * (max-min+1)) +min;
 	}
 	generateRandomOptions(sum) {
-		let result = sum;
+		//let result = sum;
 		let resultsArray = [];
 		let randomNumberArray = [];
 
@@ -26,14 +26,25 @@ class Quiz extends Component {
 			randomNumberArray.push(randomNumber);
 		}
 
-		console.log(randomNumberArray);
+		
+		//this loop adds or subtracts a number to the actual result and in turn creates
+		//three random options
+		for(let i = 0; i < 3; i++) {
+			let addSubtract = this.randomNumber(0,1);
+			let result = sum;
 
-		let addSubtract = this.randomNumber(0,1);
-		if(addSubtract === 1) {
-			//add number to the result
-		} else {
-			//subtract the number from the result
+			if(addSubtract === 1) {
+				//add number to the result
+				result += randomNumberArray[i];
+				resultsArray.push(result);
+			} else {
+				//subtract the number from the result
+				result -= randomNumberArray[i];
+				resultsArray.push(result);
+			}
 		}
+		
+		
 
 		return resultsArray;
 	}
@@ -44,9 +55,12 @@ class Quiz extends Component {
 			let field2 = this.randomNumber(20,50);
 			let result = field1 + field2;
 			let resultsArray = this.generateRandomOptions(result);
-
+			resultsArray.push(result);
+			//sort the array so as to randomize the position of the answer in the array
+			resultsArray.sort(function(a,b) {return 0.5 - Math.random()});
+			console.log(resultsArray);
 			let riddle = {
-			resultsArray: [8, 9, 10, 11],
+			resultsArray: resultsArray,
 			field1: field1,
 			field2: field2,
 			answer: result
